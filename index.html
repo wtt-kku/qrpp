@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt&display=swap"
+      rel="stylesheet"
+    />
+    <title>WTT Pay</title>
+    <style>
+      .container {
+        text-align: center;
+        width: 100%;
+      }
+
+      .group1 {
+        padding-top: 128px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: "Prompt", sans-serif;
+      }
+
+      .group2 {
+        padding-top: 104px;
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: "Prompt", sans-serif;
+      }
+
+      .item {
+        padding-top: 16px;
+        text-align: center;
+      }
+
+      #amount {
+        font-family: "Prompt", sans-serif;
+        padding: 16px;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 8px;
+        border: 2px solid;
+      }
+
+      #btn {
+        font-family: "Prompt", sans-serif;
+        font-size: 16px;
+        padding-right: 64px;
+        padding-left: 64px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        box-shadow: inset 0px 34px 0px -15px #b54b3a;
+        background-color: #a73f2d;
+        border: 0px;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        text-shadow: 0px -1px 0px #7a2a1d;
+        border-radius: 8px;
+      }
+
+      *:focus {
+        outline: none;
+      }
+
+      #show-amount {
+        font-weight: bolder;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="group1">
+        <img src="qrpp.png" width="300px" />
+        <h3>รับเงินด้วย QR Code</h3>
+        <div class="item">
+          <input type="text" id="amount" placeholder="จำนวนเงิน" />
+        </div>
+
+        <div class="item">
+          <button id="btn" onclick="genOR()">สร้าง</button>
+        </div>
+      </div>
+
+      <div class="group2">
+        <h4 onclick="Reset()" style="cursor: pointer">< กลับไปหน้าหลัก</h4>
+        <img src="qrpp.png" width="300px" />
+
+        <img
+          id="show-qr"
+          src="data:image/png;base64,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"
+          width="300px"
+          style="padding-top: 8px; padding-bottom: 16px"
+        />
+
+        <div><b>บัญชี : นายวิธาน วงษาบุตร</b></div>
+        <div style="display: inline-block">
+          ยอดเรียกเก็บ :
+          <b id="show-amount">-</b>
+          ฿
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.js"
+      integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function Reset() {
+        $(".group2").hide();
+        $("#amount").val("");
+        $(".group1").css("display", "flex");
+      }
+
+      function genOR() {
+        $.ajax({
+          method: "post",
+          url: "http://178.128.22.40/genqr",
+          data: {
+            amount: parseFloat($("#amount").val()),
+          },
+          success: function (res) {
+            $("#show-amount").html(parseFloat($("#amount").val()));
+            $("#show-qr").attr("src", res.Result);
+            $(".group1").hide();
+            $(".group2").css("display", "flex");
+          },
+          error: function (err) {
+            console.log(err);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
