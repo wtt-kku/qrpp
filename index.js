@@ -11,8 +11,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const server = app.listen(8888, () => {
-  console.log("WTT Pay is running on port 8888");
+const server = app.listen(8880, () => {
+  console.log("WTT Pay is running on port 8880");
 });
 
 app.post("/genqr", (req, res) => {
